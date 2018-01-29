@@ -1,4 +1,5 @@
 import re
+import sys
 
 def is_comment(token):
 	if isinstance(token, str) and (token != ""):
@@ -80,7 +81,7 @@ def store_npuzzle_row(token, size):
 		npuzzle_row = []
 		index = 0
 		while index < size:
-			npuzzle_row.append(split_tokens[index])
+			npuzzle_row.append(int(split_tokens[index]))
 			index += 1
 		return npuzzle_row
 	else:
@@ -105,3 +106,26 @@ def validate_sequence(board, puzzle_size):
 		return False
 	else:
 		return True
+
+def build_npuzzle():
+	npuzzle_file = sys.stdin.read().splitlines()
+	if not npuzzle_file or "" in npuzzle_file:
+		return False
+	board_size = 0
+	npuzzle = []
+	for line in npuzzle_file:
+		if not is_comment(line):
+			if not board_size:
+				board_size = store_npuzzle_size(line)
+				if not board_size:
+					return False
+			else:
+				npuzzle_row = store_npuzzle_row(line, board_size)
+				if npuzzle_row:
+					npuzzle.append(npuzzle_row)
+				else:
+					return False
+	if validate_sequence(npuzzle, board_size):
+		return npuzzle
+	else:
+		return False
