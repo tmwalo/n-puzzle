@@ -189,3 +189,10 @@ def count_inversions(npuzzle, size):
 			j_index += 1
 		index += 1
 	return inversions
+
+def is_solvable(npuzzle, size):
+	inversions = count_inversions(npuzzle, size)
+	if inversions % 2 == 0:
+		return True
+	else:
+		return False
