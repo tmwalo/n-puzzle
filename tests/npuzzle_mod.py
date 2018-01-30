@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    npuzzle_mod.py                                     :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tmwalo <marvin@42.fr>                      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/01/30 15:13:29 by tmwalo            #+#    #+#              #
+#    Updated: 2018/01/30 16:37:12 by tmwalo           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 import re
 import sys
 
@@ -129,3 +141,38 @@ def build_npuzzle():
 		return npuzzle
 	else:
 		return False
+
+def npuzzle_spiral_translate(npuzzle, size):
+	npuzzle_list = []
+	row_index = 0
+	rem_rows = size
+	column_index = 0
+	rem_columns = size
+	while row_index < rem_rows and column_index < rem_columns:
+		index = column_index
+		while index < rem_columns:
+			if npuzzle[row_index][index]:
+				npuzzle_list.append(npuzzle[row_index][index])
+			index += 1
+		row_index += 1
+		index = row_index
+		while index < rem_rows:
+			if npuzzle[index][rem_columns - 1]:
+				npuzzle_list.append(npuzzle[index][rem_columns - 1])
+			index += 1
+		rem_columns -= 1
+		if row_index < rem_rows:
+			index = rem_columns - 1
+			while index >= column_index:
+				if npuzzle[rem_rows - 1][index]:
+					npuzzle_list.append(npuzzle[rem_rows - 1][index])
+				index -= 1
+			rem_rows -= 1
+		if column_index < rem_columns:
+			index = rem_rows - 1
+			while index >= row_index:
+				if npuzzle[index][column_index]:
+					npuzzle_list.append(npuzzle[index][column_index])
+				index -= 1
+			column_index += 1
+	return npuzzle_list
