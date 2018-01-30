@@ -176,3 +176,16 @@ def npuzzle_spiral_translate(npuzzle, size):
 				index -= 1
 			column_index += 1
 	return npuzzle_list
+
+def count_inversions(npuzzle, size):
+	npuzzle_1d = npuzzle_spiral_translate(npuzzle, size)
+	index = 0
+	inversions = 0
+	while index < len(npuzzle_1d) - 1:
+		j_index = index + 1
+		while j_index < len(npuzzle_1d):
+			if npuzzle_1d[index] > npuzzle_1d[j_index]:
+				inversions += 1
+			j_index += 1
+		index += 1
+	return inversions
