@@ -142,57 +142,66 @@ def build_npuzzle():
 	else:
 		return False
 
-def npuzzle_spiral_translate(npuzzle, size):
-	npuzzle_list = []
-	row_index = 0
-	rem_rows = size
-	column_index = 0
-	rem_columns = size
-	while row_index < rem_rows and column_index < rem_columns:
-		index = column_index
-		while index < rem_columns:
-			if npuzzle[row_index][index]:
-				npuzzle_list.append(npuzzle[row_index][index])
-			index += 1
-		row_index += 1
-		index = row_index
-		while index < rem_rows:
-			if npuzzle[index][rem_columns - 1]:
-				npuzzle_list.append(npuzzle[index][rem_columns - 1])
-			index += 1
-		rem_columns -= 1
-		if row_index < rem_rows:
-			index = rem_columns - 1
-			while index >= column_index:
-				if npuzzle[rem_rows - 1][index]:
-					npuzzle_list.append(npuzzle[rem_rows - 1][index])
-				index -= 1
-			rem_rows -= 1
-		if column_index < rem_columns:
-			index = rem_rows - 1
-			while index >= row_index:
-				if npuzzle[index][column_index]:
-					npuzzle_list.append(npuzzle[index][column_index])
-				index -= 1
-			column_index += 1
-	return npuzzle_list
+class Board:
 
-def count_inversions(npuzzle, size):
-	npuzzle_1d = npuzzle_spiral_translate(npuzzle, size)
-	index = 0
-	inversions = 0
-	while index < len(npuzzle_1d) - 1:
-		j_index = index + 1
-		while j_index < len(npuzzle_1d):
-			if npuzzle_1d[index] > npuzzle_1d[j_index]:
-				inversions += 1
-			j_index += 1
-		index += 1
-	return inversions
+	def __init__(self, board):
+		self.board = board
+		self.size = len(board[0])
+	
+	def size(self):
+		return self.size
+	
+	def board_spiral_translate(self):
+		board_list = []
+		row_index = 0
+		rem_rows = self.size
+		column_index = 0
+		rem_columns = self.size
+		while row_index < rem_rows and column_index < rem_columns:
+			index = column_index
+			while index < rem_columns:
+				if self.board[row_index][index]:
+					board_list.append(self.board[row_index][index])
+				index += 1
+			row_index += 1
+			index = row_index
+			while index < rem_rows:
+				if self.board[index][rem_columns - 1]:
+					board_list.append(self.board[index][rem_columns - 1])
+				index += 1
+			rem_columns -= 1
+			if row_index < rem_rows:
+				index = rem_columns - 1
+				while index >= column_index:
+					if self.board[rem_rows - 1][index]:
+						board_list.append(self.board[rem_rows - 1][index])
+					index -= 1
+				rem_rows -= 1
+			if column_index < rem_columns:
+				index = rem_rows - 1
+				while index >= row_index:
+					if self.board[index][column_index]:
+						board_list.append(self.board[index][column_index])
+					index -= 1
+				column_index += 1
+		return board_list
 
-def is_solvable(npuzzle, size):
-	inversions = count_inversions(npuzzle, size)
-	if inversions % 2 == 0:
-		return True
-	else:
-		return False
+	def count_inversions(self):
+		board_1d = self.board_spiral_translate()
+		index = 0
+		inversions = 0
+		while index < len(board_1d) - 1:
+			j_index = index + 1
+			while j_index < len(board_1d):
+				if board_1d[index] > board_1d[j_index]:
+					inversions += 1
+				j_index += 1
+			index += 1
+		return inversions
+
+	def is_solvable(self):
+		inversions = self.count_inversions()
+		if inversions % 2 == 0:
+			return True
+		else:
+			return False
