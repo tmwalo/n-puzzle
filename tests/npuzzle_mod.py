@@ -150,9 +150,32 @@ class Board:
 		self.size = len(board[0])
 		self.goal_board = None
 	
-	def size(self):
+	def get_size(self):
 		return self.size
-	
+
+	def coordinates(self, value):
+		row = 0
+		while row < self.get_size():
+			column = 0
+			while column < self.get_size():
+				if (self.board)[row][column] == value:
+					return {"x": column, "y": row}
+				column += 1
+			row += 1
+
+	def cell_manhattan_dist(self, value):
+		board_coord = self.coordinates(value)
+		goal_coord = (self.goal_state()).coordinates(value)
+		return abs(board_coord["x"] - goal_coord["x"]) + abs(board_coord["y"] - goal_coord["y"])
+
+	def manhattan_distance(self):
+		index = 1
+		heuristic = 0
+		while index < (self.get_size())**2:
+			heuristic += self.cell_manhattan_dist(index)
+			index += 1
+		return heuristic
+
 	def board_spiral_translate(self):
 		board_list = []
 		row_index = 0
