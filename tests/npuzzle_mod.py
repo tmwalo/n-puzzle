@@ -176,6 +176,15 @@ class Board:
 			index += 1
 		return heuristic
 
+	def hamming_distance(self):
+		index = 1
+		heuristic = 0
+		while index < (self.get_size())**2:
+			if self.cell_manhattan_dist(index):
+				heuristic += 1
+			index += 1
+		return heuristic
+
 	def board_spiral_translate(self):
 		board_list = []
 		row_index = 0
