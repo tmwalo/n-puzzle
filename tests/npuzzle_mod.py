@@ -12,6 +12,7 @@
 
 import re
 import sys
+from copy import deepcopy
 
 def is_comment(token):
 	if isinstance(token, str) and (token != ""):
@@ -147,6 +148,7 @@ class Board:
 	def __init__(self, board):
 		self.board = board
 		self.size = len(board[0])
+		self.goal_board = None
 	
 	def size(self):
 		return self.size
@@ -202,6 +204,71 @@ class Board:
 	def is_solvable(self):
 		inversions = self.count_inversions()
 		if inversions % 2 == 0:
+			return True
+		else:
+			return False
+
+	def generate_goal_board(self):
+		goal = deepcopy(self.board)
+		row_index = 0
+		rem_rows = self.size
+		column_index = 0
+		rem_columns = self.size
+		cell = 1
+		while row_index < rem_rows and column_index < rem_columns:
+			index = column_index
+			while index < rem_columns:
+				if cell != (self.size)**2:
+					goal[row_index][index] = cell
+				else:
+					goal[row_index][index] = 0
+				cell += 1
+				index += 1
+			row_index += 1
+			index = row_index
+			while index < rem_rows:
+				if cell != (self.size)**2:
+					goal[index][rem_columns - 1] = cell
+				else:
+					goal[index][rem_columns - 1] = 0
+				cell += 1
+				index += 1
+			rem_columns -= 1
+			if row_index < rem_rows:
+				index = rem_columns - 1
+				while index >= column_index:
+					if cell != (self.size)**2:
+						goal[rem_rows - 1][index] = cell
+					else:
+						goal[rem_rows - 1][index] = 0
+					cell += 1
+					index -= 1
+				rem_rows -= 1
+			if column_index < rem_columns:
+				index = rem_rows - 1
+				while index >= row_index:
+					if cell != (self.size)**2:
+						goal[index][column_index] = cell
+					else:
+						goal[index][column_index] = 0
+					cell += 1
+					index -= 1
+				column_index += 1
+		return goal
+
+	def goal_state(self):
+		if not self.goal_board:
+			self.goal_board = Board(self.generate_goal_board())
+		return self.goal_board
+
+	def equals(self, board):
+		if self.board == board.board:
+			return True
+		else:
+			return False
+
+	def is_goal_state(self):
+		if self.equals(self.goal_state()):
 			return True
 		else:
 			return False
