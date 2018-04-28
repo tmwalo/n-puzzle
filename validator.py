@@ -15,8 +15,12 @@ import sys
 
 class Validator:
 
-	def build_npuzzle(self):
-		npuzzle_file = sys.stdin.read().splitlines()
+	def build_npuzzle(self, file_src):
+		try:
+			with open(file_src, "r") as f:
+				npuzzle_file = f.read().splitlines()
+		except IOError:
+			return
 		if not npuzzle_file or "" in npuzzle_file:
 			return False
 		board_size = 0
