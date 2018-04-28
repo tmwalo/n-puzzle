@@ -17,3 +17,21 @@ def generate_random_array(size):
 		board_1d[random_index] = temp
 		current_index -= 1
 	return board_1d
+
+def generate_random_board(size):
+	if size < 3:
+		return None
+	board = []
+	board_1d = generate_random_array(size)
+	index = 0
+	row = 0
+	while row < size:
+		column = 0
+		board_row = []
+		while column < size:
+			board_row.append(board_1d[index])
+			index += 1
+			column += 1
+		board.append(board_row)
+		row += 1
+	return board
