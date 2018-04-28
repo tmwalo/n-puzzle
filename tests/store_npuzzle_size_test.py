@@ -1,11 +1,13 @@
-from npuzzle_mod import store_npuzzle_size
+from validator import Validator
 
-print(store_npuzzle_size(13))
+validate = Validator()
 
-print(store_npuzzle_size("	  	 	 	   "))
+print(validate.store_npuzzle_size(13))
 
-print(store_npuzzle_size("13"))
+print(validate.store_npuzzle_size("	  	 	 	   "))
 
-print(store_npuzzle_size("13 #comment"))
+print(validate.store_npuzzle_size("13"))
 
-print(store_npuzzle_size(" 	 13	 #comment	 	"))
+print(validate.store_npuzzle_size("13 #comment"))
+
+print(validate.store_npuzzle_size(" 	 13	 #comment	 	"))

@@ -6,12 +6,10 @@
 #    By: tmwalo <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/30 15:13:29 by tmwalo            #+#    #+#              #
-#    Updated: 2018/01/30 16:37:12 by tmwalo           ###   ########.fr        #
+#    Updated: 2018/04/28 10:19:08 by tmwalo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-import re
-import sys
 from copy import deepcopy
 
 def is_comment(token):

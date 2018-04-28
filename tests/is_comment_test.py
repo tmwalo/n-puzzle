@@ -1,56 +1,58 @@
-from npuzzle_mod import is_comment
+from validator import Validator
 
-if not is_comment(777):
+validate = Validator()
+
+if not validate.is_comment(777):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not is_comment(7.77):
+if not validate.is_comment(7.77):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not is_comment(False):
+if not validate.is_comment(False):
 	print("PASS")
 else:
 	print("FAIL")
 
-if is_comment("#comment"):
+if validate.is_comment("#comment"):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not is_comment(""):
+if not validate.is_comment(""):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not is_comment("not comment"):
+if not validate.is_comment("not comment"):
 	print("PASS")
 else:
 	print("FAIL")
 
-if is_comment("# comment"):
+if validate.is_comment("# comment"):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not is_comment("	 not  		comment	 "):
+if not validate.is_comment("	 not  		comment	 "):
 	print("PASS")
 else:
 	print("FAIL")
 
-if is_comment("	 # 		comment	"):
+if validate.is_comment("	 # 		comment	"):
 	print("PASS")
 else:
 	print("FAIL")
 
-if is_comment("  		#comment	 	 "):
+if validate.is_comment("  		#comment	 	 "):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not is_comment("  			 	 	 "):
+if not validate.is_comment("  			 	 	 "):
 	print("PASS")
 else:
 	print("FAIL")

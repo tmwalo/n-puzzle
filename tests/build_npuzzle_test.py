@@ -1,3 +1,5 @@
-from npuzzle_mod import build_npuzzle
+from validator import Validator
 
-print(build_npuzzle())
+validate = Validator()
+
+print(validate.build_npuzzle())

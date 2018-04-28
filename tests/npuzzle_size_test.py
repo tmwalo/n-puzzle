@@ -1,56 +1,58 @@
-from npuzzle_mod import npuzzle_size
+from validator import Validator
 
-if not npuzzle_size(333):
+validate = Validator()
+
+if not validate.npuzzle_size(333):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not npuzzle_size(3.33):
+if not validate.npuzzle_size(3.33):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not npuzzle_size(True):
+if not validate.npuzzle_size(True):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not npuzzle_size("311cats"):
+if not validate.npuzzle_size("311cats"):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not npuzzle_size(""):
+if not validate.npuzzle_size(""):
 	print("PASS")
 else:
 	print("FAIL")
 
-if npuzzle_size("27"):
+if validate.npuzzle_size("27"):
 	print("PASS")
 else:
 	print("FAIL")
 
-if npuzzle_size("187 #comment"):
+if validate.npuzzle_size("187 #comment"):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not npuzzle_size("2"):
+if not validate.npuzzle_size("2"):
 	print("PASS")
 else:
 	print("FAIL")
 
-if npuzzle_size("	 27		    	"):
+if validate.npuzzle_size("	 27		    	"):
 	print("PASS")
 else:
 	print("FAIL")
 
-if npuzzle_size(" 187		 #comment    "):
+if validate.npuzzle_size(" 187		 #comment    "):
 	print("PASS")
 else:
 	print("FAIL")
 
-if not npuzzle_size("	   	 	    	  	 	  "):
+if not validate.npuzzle_size("	   	 	    	  	 	  "):
 	print("PASS")
 else:
 	print("FAIL")
