@@ -185,6 +185,24 @@ class Board:
 			index += 1
 		return heuristic
 
+	def cell_out_of_row_and_column(self, value):
+		board_coord = self.coordinates(value)
+		goal_coord = (self.goal_state()).coordinates(value)
+		out_of_row_and_column = 0
+		if (board_coord["x"] - goal_coord["x"]):
+			out_of_row_and_column += 1
+		if (board_coord["y"] - goal_coord["y"]):
+			out_of_row_and_column += 1
+		return out_of_row_and_column
+
+	def out_of_row_and_column(self):
+		index = 1
+		heuristic = 0
+		while index < (self.get_size())**2:
+			heuristic += self.cell_out_of_row_and_column(index)
+			index += 1
+		return heuristic
+
 	def board_spiral_translate(self):
 		board_list = []
 		row_index = 0
