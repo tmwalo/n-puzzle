@@ -13,6 +13,7 @@
 from npuzzle_mod import Board
 from validator import Validator
 from helpers import generate_random_board
+import solve_puzzle
 import sys
 
 heuristics = ["manhattan", "hamming", "row_and_column"]
@@ -47,6 +48,7 @@ if (not usage_error) and (not validation_error):
 	start_board = Board(start_board_array)
 	if start_board.is_solvable():
 		# CALL PUZZLE SOLVER(with heuristic key)
+		solve_puzzle.sovle_puzzle(start_board.board, heuristic_key)
 		print("call solver")
 	else:
 		print("Puzzle can not be solved")
