@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    main.py                                            :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tmwalo <marvin@42.fr>                      +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/04/29 09:22:56 by tmwalo            #+#    #+#              #
+#    Updated: 2018/04/29 09:23:10 by tmwalo           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 from npuzzle_mod import Board
 from validator import Validator
 from helpers import generate_random_board
