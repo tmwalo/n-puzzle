@@ -6,7 +6,7 @@
 #    By: tmwalo <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/29 09:22:56 by tmwalo            #+#    #+#              #
-#    Updated: 2018/04/29 09:23:10 by tmwalo           ###   ########.fr        #
+#    Updated: 2018/04/29 11:34:52 by tmwalo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,12 +47,11 @@ else:
 if (not usage_error) and (not validation_error):
 	start_board = Board(start_board_array)
 	if start_board.is_solvable():
-		# CALL PUZZLE SOLVER(with heuristic key)
 		solve_puzzle.sovle_puzzle(start_board.board, heuristic_key)
-		print("call solver")
 	else:
-		print("Puzzle can not be solved")
+		sys.stderr.write("Puzzle can not be solved\n")
+                solve_puzzle.display_state(start_board.board, 0)
 elif validation_error:
-	print("Error")
+	sys.stderr.write("Error\n")
 elif usage_error:
-	print("Error\nUsage: main.py -f|-r heuristic npuzzle.txt|random_puzzle_size")
+	sys.stderr.write("Error\nUsage: main.py -f|-r heuristic npuzzle.txt|random_puzzle_size\nheuristic = manhattan OR hamming OR row_and_column\n")
