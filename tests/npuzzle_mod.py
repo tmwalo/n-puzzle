@@ -18,7 +18,19 @@ class Board:
 		self.board = board
 		self.size = len(board[0])
 		self.goal_board = None
-	
+		self.f = 0
+		self.g = 0
+		self.h = 0
+
+	def get_f_score(self):
+		return self.f
+
+	def get_g_score(self):
+		return self.g
+
+	def get_h_score(self):
+		return self.h
+
 	def get_size(self):
 		return self.size
 
@@ -107,6 +119,20 @@ class Board:
 		if right["y"] < self.get_size():
 			moves.append(right)
 		return moves
+
+	def set_f_score(self, value):
+		self.f = value
+
+	def set_g_score(self, value):
+		self.g = value
+
+	def set_h_score(self, heuristic):
+		if heuristic == "manhattan":
+			self.h = self.manhattan_distance()
+		elif heuristic == "hamming":
+			self.h = self.hamming_distance()
+		elif heuristic == "row_and_column":
+			self.h = self.out_of_row_and_column()
 
 	def swap_cells(self, coords_a, coords_b):
 		temp = self.board[coords_a["x"]][coords_a["y"]]
