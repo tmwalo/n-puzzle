@@ -17,6 +17,7 @@ class Board:
 	def __init__(self, board):
 		self.board = board
 		self.size = len(board[0])
+		self.parent = None
 		self.goal_board = None
 		self.f = 0
 		self.g = 0
@@ -30,6 +31,9 @@ class Board:
 
 	def get_h_score(self):
 		return self.h
+
+	def get_parent(self):
+		return self.parent
 
 	def get_size(self):
 		return self.size
@@ -133,6 +137,9 @@ class Board:
 			self.h = self.hamming_distance()
 		elif heuristic == "row_and_column":
 			self.h = self.out_of_row_and_column()
+
+	def set_parent(self, board):
+		self.parent = board
 
 	def swap_cells(self, coords_a, coords_b):
 		temp = self.board[coords_a["x"]][coords_a["y"]]
