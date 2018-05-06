@@ -23,6 +23,9 @@ class Board:
 		self.g = 0
 		self.h = 0
 
+	def __lt__(self, other_board):
+		return self.get_h_score() < other_board.get_h_score()
+
 	def get_f_score(self):
 		return self.f
 
@@ -44,14 +47,14 @@ class Board:
 			column = 0
 			while column < self.get_size():
 				if (self.board)[row][column] == value:
-					return {"x": column, "y": row}
+					return {"row": row, "column": column}
 				column += 1
 			row += 1
 
 	def cell_manhattan_dist(self, value):
 		board_coord = self.coordinates(value)
 		goal_coord = (self.goal_state()).coordinates(value)
-		return abs(board_coord["x"] - goal_coord["x"]) + abs(board_coord["y"] - goal_coord["y"])
+		return abs(board_coord["column"] - goal_coord["column"]) + abs(board_coord["row"] - goal_coord["row"])
 
 	def manhattan_distance(self):
 		index = 1
@@ -74,9 +77,9 @@ class Board:
 		board_coord = self.coordinates(value)
 		goal_coord = (self.goal_state()).coordinates(value)
 		out_of_row_and_column = 0
-		if (board_coord["x"] - goal_coord["x"]):
+		if (board_coord["column"] - goal_coord["column"]):
 			out_of_row_and_column += 1
-		if (board_coord["y"] - goal_coord["y"]):
+		if (board_coord["row"] - goal_coord["row"]):
 			out_of_row_and_column += 1
 		return out_of_row_and_column
 
@@ -102,25 +105,25 @@ class Board:
 	def possible_moves(self):
 		empty_cell = self.coordinates(0)
 		up = {}
-		up["y"] = empty_cell["y"]
-		up["x"] = empty_cell["x"] - 1
+		up["column"] = empty_cell["column"]
+		up["row"] = empty_cell["row"] - 1
 		down = {}
-		down["y"] = empty_cell["y"]
-		down["x"] = empty_cell["x"] + 1
+		down["column"] = empty_cell["column"]
+		down["row"] = empty_cell["row"] + 1
 		left = {}
-		left["y"] = empty_cell["y"] - 1
-		left["x"] = empty_cell["x"]
+		left["column"] = empty_cell["column"] - 1
+		left["row"] = empty_cell["row"]
 		right = {}
-		right["y"] = empty_cell["y"] + 1
-		right["x"] = empty_cell["x"]
+		right["column"] = empty_cell["column"] + 1
+		right["row"] = empty_cell["row"]
 		moves = []
-		if up["x"] >= 0:
+		if (up["row"] >= 0) and (up["row"] < self.get_size()):
 			moves.append(up)
-		if down["x"] < self.get_size():
+		if down["row"] < self.get_size():
 			moves.append(down)
-		if left["y"] >= 0:
+		if (left["column"] >= 0) and (left["column"] < self.get_size()):
 			moves.append(left)
-		if right["y"] < self.get_size():
+		if (right["column"] < self.get_size()) and (right["column"] >= 0):
 			moves.append(right)
 		return moves
 
@@ -142,9 +145,9 @@ class Board:
 		self.parent = board
 
 	def swap_cells(self, coords_a, coords_b):
-		temp = self.board[coords_a["x"]][coords_a["y"]]
-		self.board[coords_a["x"]][coords_a["y"]] = self.board[coords_b["x"]][coords_b["y"]]
-		self.board[coords_b["x"]][coords_b["y"]] = temp
+		temp = self.board[coords_a["row"]][coords_a["column"]]
+		self.board[coords_a["row"]][coords_a["column"]] = self.board[coords_b["row"]][coords_b["column"]]
+		self.board[coords_b["row"]][coords_b["column"]] = temp
 
 	def board_spiral_translate(self):
 		board_list = []

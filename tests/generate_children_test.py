@@ -1,9 +1,9 @@
 from npuzzle_mod import Board
 
 npuzzle = []
-npuzzle.append([1, 5, 7])
-npuzzle.append([2, 0, 6])
-npuzzle.append([3, 8, 4])
+npuzzle.append([1, 2, 3])
+npuzzle.append([0, 8, 4])
+npuzzle.append([7, 6, 5])
 
 board = Board(npuzzle)
 
