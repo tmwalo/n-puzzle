@@ -9,7 +9,7 @@ board = Board(npuzzle)
 print("npuzzle: {}".format(board.board))
 possible_moves = board.possible_moves()
 for coords in possible_moves:
-	print("x - {}, y - {}".format(coords["x"], coords["y"]))
+	print("row - {}, column - {}".format(coords["row"], coords["column"]))
 
 npuzzle1 = []
 npuzzle1.append([1, 5, 0])
@@ -20,4 +20,4 @@ board1 = Board(npuzzle1)
 print("npuzzle: {}".format(board1.board))
 possible_moves1 = board1.possible_moves()
 for coords in possible_moves1:
-	print("x - {}, y - {}".format(coords["x"], coords["y"]))
+	print("row - {}, column - {}".format(coords["row"], coords["column"]))
