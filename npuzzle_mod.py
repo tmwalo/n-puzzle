@@ -64,6 +64,17 @@ class Board:
 			out_of_row_and_column += 1
 		return out_of_row_and_column
 
+	def generate_children(self):
+		boards = []
+		empty_cell = self.coordinates(0)
+		potential_moves = self.possible_moves()
+		for move in potential_moves:
+			board = deepcopy(self.board)
+			board_obj = Board(board)
+			board_obj.swap_cells(empty_cell, move)
+			boards.append(board_obj)
+		return boards
+
 	def out_of_row_and_column(self):
 		index = 1
 		heuristic = 0
@@ -71,6 +82,36 @@ class Board:
 			heuristic += self.cell_out_of_row_and_column(index)
 			index += 1
 		return heuristic
+
+	def possible_moves(self):
+		empty_cell = self.coordinates(0)
+		up = {}
+		up["y"] = empty_cell["y"]
+		up["x"] = empty_cell["x"] - 1
+		down = {}
+		down["y"] = empty_cell["y"]
+		down["x"] = empty_cell["x"] + 1
+		left = {}
+		left["y"] = empty_cell["y"] - 1
+		left["x"] = empty_cell["x"]
+		right = {}
+		right["y"] = empty_cell["y"] + 1
+		right["x"] = empty_cell["x"]
+		moves = []
+		if up["x"] >= 0:
+			moves.append(up)
+		if down["x"] < self.get_size():
+			moves.append(down)
+		if left["y"] >= 0:
+			moves.append(left)
+		if right["y"] < self.get_size():
+			moves.append(right)
+		return moves
+
+	def swap_cells(self, coords_a, coords_b):
+		temp = self.board[coords_a["x"]][coords_a["y"]]
+		self.board[coords_a["x"]][coords_a["y"]] = self.board[coords_b["x"]][coords_b["y"]]
+		self.board[coords_b["x"]][coords_b["y"]] = temp
 
 	def board_spiral_translate(self):
 		board_list = []
