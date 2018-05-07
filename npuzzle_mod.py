@@ -127,6 +127,10 @@ class Board:
 			moves.append(right)
 		return moves
 
+	def print_board(self):
+		for index in range(self.get_size()):
+			print(self.board[index])
+
 	def set_f_score(self, value):
 		self.f = value
 
