@@ -31,7 +31,7 @@ class Solver:
 			current_board = current_board.get_parent()
 		path.append(self.get_start_board())
 		while path:
-			print("\n{}".format(path.pop().board))
+			print("\n{}".format(path.pop().print_board()))
 
 	def is_goal_reached(self, cmp_board):
 		if self.get_goal_board().board == cmp_board.board:

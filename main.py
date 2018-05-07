@@ -51,7 +51,7 @@ if (not usage_error) and (not validation_error):
 		solver.solve()
 	else:
 		sys.stderr.write("Puzzle can not be solved\n")
-		print(start_board.board)
+		print(start_board.print_board())
 elif validation_error:
 	sys.stderr.write("Error\n")
 elif usage_error:
