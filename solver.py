@@ -23,6 +23,16 @@ class Solver:
 	def get_heuristic(self):
 		return self.heuristic
 
+	def get_path(self, board):
+		path = []
+		current_board = board
+		while current_board.get_parent():
+			path.append(current_board)
+			current_board = current_board.get_parent()
+		path.append(self.get_start_board())
+		while path:
+			print("\n{}".format(path.pop().board))
+
 	def is_goal_reached(self, cmp_board):
 		if self.get_goal_board().board == cmp_board.board:
 			return True
@@ -69,4 +79,4 @@ class Solver:
 								heapq.heappush(open_set, (duplicate_board.get_f_score(), duplicate_board))
 				closed_set.append(selected_board)
 		if success:
-			print(selected_board.board)
+			self.get_path(selected_board)
