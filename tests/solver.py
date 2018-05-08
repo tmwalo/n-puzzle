@@ -48,33 +48,41 @@ class Solver:
 
 	def solve(self):
 		open_set = []
+		search_open_set = set()
 		self.get_start_board().set_h_score(self.get_heuristic())
 		self.get_start_board().set_f_score(self.get_start_board().get_g_score() + self.get_start_board().get_h_score())
 		heapq.heappush(open_set, (self.get_start_board().get_f_score(), self.get_start_board()))
+		search_open_set.add(self.get_start_board())
 		closed_set = []
+		search_closed_set = set()
 		success = False
 		while open_set and (not success):
 			selected_board = heapq.heappop(open_set)[1]
+			search_open_set.discard(selected_board)
 			if self.is_goal_reached(selected_board):
 				success = True
 			else:
 				children = selected_board.generate_children()
 				for child in children:
 					self.set_child_state(child, selected_board)
-					if child in open_set:
+					if child in search_open_set:
 						duplicate_board_index = open_set.index(child)
 						duplicate_board = open_set[duplicate_board_index]
 						if child.get_f_score() < duplicate_board.get_f_score():
 							self.set_child_state(duplicate_board, selected_board)
-					elif child in closed_set:
+					elif child in search_closed_set:
 						duplicate_board_index = closed_set.index(child)
 						duplicate_board = closed_set[duplicate_board_index]
 						if child.get_f_score() < duplicate_board.get_f_score():
 							duplicate_board = closed_set.pop(duplicate_board_index)
+							search_closed_set.discard(duplicate_board)
 							self.set_child_state(duplicate_board, selected_board)
 							heapq.heappush(open_set, (duplicate_board.get_f_score(), duplicate_board))
+							search_open_set.add(child)
 					else:
 						heapq.heappush(open_set, (child.get_f_score(), child))
+						search_open_set.add(child)
 				closed_set.append(selected_board)
+				search_closed_set.add(selected_board)
 		if success:
 			self.get_path(selected_board)
