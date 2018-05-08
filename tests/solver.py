@@ -39,6 +39,13 @@ class Solver:
 		else:
 			return False
 
+	def set_child_state(self, child, parent):
+		child_g_score = parent.get_g_score() + self.get_cost_per_move()
+		child.set_g_score(child_g_score)
+		child.set_h_score(self.get_heuristic())
+		child.set_f_score(child.get_g_score() + child.get_h_score())
+		child.set_parent(parent)
+
 	def solve(self):
 		open_set = []
 		self.get_start_board().set_h_score(self.get_heuristic())
@@ -52,12 +59,8 @@ class Solver:
 				success = True
 			else:
 				children = selected_board.generate_children()
-				child_g_score = selected_board.get_g_score() + self.get_cost_per_move()
 				for child in children:
-					child.set_g_score(child_g_score)
-					child.set_h_score(self.get_heuristic())
-					child.set_f_score(child.get_g_score() + child.get_h_score())
-					child.set_parent(selected_board)
+					self.set_child_state(child, selected_board)
 					if (child not in open_set) and (child not in closed_set):
 						heapq.heappush(open_set, (child.get_f_score(), child))
 					else:
@@ -65,19 +68,13 @@ class Solver:
 							duplicate_board_index = open_set.index(child)
 							duplicate_board = open_set[duplicate_board_index]
 							if child.get_f_score() < duplicate_board.get_f_score():
-								duplicate_board.set_g_score(child.get_g_score())
-								duplicate_board.set_h_score(child.get_h_score())
-								duplicate_board.set_f_score(child.get_f_score())
-								duplicate_board.set_parent(child.get_parent())
+								self.set_child_state(duplicate_board, selected_board)
 						else:
 							duplicate_board_index = closed_set.index(child)
 							duplicate_board = closed_set[duplicate_board_index]
 							if child.get_f_score() < duplicate_board.get_f_score():
 								duplicate_board = closed_set.pop(duplicate_board_index)
-								duplicate_board.set_g_score(child.get_g_score())
-								duplicate_board.set_h_score(child.get_h_score())
-								duplicate_board.set_f_score(child.get_f_score())
-								duplicate_board.set_parent(child.get_parent())
+								self.set_child_state(duplicate_board, selected_board)
 								heapq.heappush(open_set, (duplicate_board.get_f_score(), duplicate_board))
 				closed_set.append(selected_board)
 		if success:
