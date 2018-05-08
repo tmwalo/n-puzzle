@@ -54,28 +54,30 @@ class Solver:
 				children = selected_board.generate_children()
 				child_g_score = selected_board.get_g_score() + self.get_cost_per_move()
 				for child in children:
+					child.set_g_score(child_g_score)
+					child.set_h_score(self.get_heuristic())
+					child.set_f_score(child.get_g_score() + child.get_h_score())
+					child.set_parent(selected_board)
 					if (child not in open_set) and (child not in closed_set):
-						child.set_g_score(child_g_score)
-						child.set_h_score(self.get_heuristic())
-						child.set_f_score(child.get_g_score() + child.get_h_score())
-						child.set_parent(selected_board)
 						heapq.heappush(open_set, (child.get_f_score(), child))
 					else:
 						if child in open_set:
 							duplicate_board_index = open_set.index(child)
 							duplicate_board = open_set[duplicate_board_index]
-							if child_g_score < duplicate_board.get_g_score():
-								duplicate_board.set_g_score(child_g_score)
-								duplicate_board.set_f_score(duplicate_board.get_g_score() + duplicate_board.get_h_score())
-								duplicate_board.set_parent(selected_board)
+							if child.get_f_score() < duplicate_board.get_f_score():
+								duplicate_board.set_g_score(child.get_g_score())
+								duplicate_board.set_h_score(child.get_h_score())
+								duplicate_board.set_f_score(child.get_f_score())
+								duplicate_board.set_parent(child.get_parent())
 						else:
 							duplicate_board_index = closed_set.index(child)
 							duplicate_board = closed_set[duplicate_board_index]
-							if child_g_score < duplicate_board.get_g_score():
+							if child.get_f_score() < duplicate_board.get_f_score():
 								duplicate_board = closed_set.pop(duplicate_board_index)
-								duplicate_board.set_g_score(child_g_score)
-								duplicate_board.set_f_score(duplicate_board.get_g_score() + duplicate_board.get_h_score())
-								duplicate_board.set_parent(selected_board)
+								duplicate_board.set_g_score(child.get_g_score())
+								duplicate_board.set_h_score(child.get_h_score())
+								duplicate_board.set_f_score(child.get_f_score())
+								duplicate_board.set_parent(child.get_parent())
 								heapq.heappush(open_set, (duplicate_board.get_f_score(), duplicate_board))
 				closed_set.append(selected_board)
 		if success:
