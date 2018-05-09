@@ -33,7 +33,7 @@ class Solver:
 		path.append(self.get_start_board())
 		while path:
 			state = path.pop()
-			print("\nmove: {}\n{}".format(state.get_g_score(), state.print_board()))
+#			print("\nmove: {}\n{}".format(state.get_g_score(), state.print_board()))
 
 	def is_goal_reached(self, cmp_board):
 		if self.get_goal_board().board == cmp_board.board:
@@ -58,8 +58,16 @@ class Solver:
 		search_open_set.add(self.get_start_board())
 		closed_set = set()
 		success = False
-		while open_set and (not success):
+		count = 1
+		while open_set and (not success) and (count < 6):
+			print("OPEN SET:")
+			for board in open_set:
+				board[1].print_board()
+				print()
 			selected_board = heapq.heappop(open_set)[1]
+			print("SELECTED BOARD:")
+			selected_board.print_board()
+			print()
 			search_open_set.discard(selected_board)
 			if self.is_goal_reached(selected_board):
 				success = True
@@ -85,6 +93,11 @@ class Solver:
 						heapq.heappush(open_set, (child.get_f_score(), child))
 						search_open_set.add(child)
 				closed_set.add(selected_board)
+				print("CLOSED SET:")
+				for board in closed_set:
+					board.print_board()
+					print()
+				count += 1
 		if success:
 			self.get_path(selected_board)
 			print("running time: {} seconds".format(time.time() - start))
