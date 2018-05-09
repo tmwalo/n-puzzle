@@ -1,5 +1,6 @@
 from npuzzle_mod import Board
 import heapq
+import time
 
 class Solver:
 
@@ -31,7 +32,8 @@ class Solver:
 			current_board = current_board.get_parent()
 		path.append(self.get_start_board())
 		while path:
-			print("\n{}".format(path.pop().print_board()))
+			state = path.pop()
+			print("\nmove: {}\n{}".format(state.get_g_score(), state.print_board()))
 
 	def is_goal_reached(self, cmp_board):
 		if self.get_goal_board().board == cmp_board.board:
@@ -47,14 +49,14 @@ class Solver:
 		child.set_parent(parent)
 
 	def solve(self):
+		start = time.time()
 		open_set = []
 		search_open_set = set()
 		self.get_start_board().set_h_score(self.get_heuristic())
 		self.get_start_board().set_f_score(self.get_start_board().get_g_score() + self.get_start_board().get_h_score())
 		heapq.heappush(open_set, (self.get_start_board().get_f_score(), self.get_start_board()))
 		search_open_set.add(self.get_start_board())
-		closed_set = []
-		search_closed_set = set()
+		closed_set = set()
 		success = False
 		while open_set and (not success):
 			selected_board = heapq.heappop(open_set)[1]
@@ -70,19 +72,19 @@ class Solver:
 						duplicate_board = open_set[duplicate_board_index]
 						if child.get_f_score() < duplicate_board.get_f_score():
 							self.set_child_state(duplicate_board, selected_board)
-					elif child in search_closed_set:
-						duplicate_board_index = closed_set.index(child)
-						duplicate_board = closed_set[duplicate_board_index]
+					elif child in closed_set:
+						for board in closed_set:
+							if child.equals(board):
+								duplicate_board = board
+								break
 						if child.get_f_score() < duplicate_board.get_f_score():
-							duplicate_board = closed_set.pop(duplicate_board_index)
-							search_closed_set.discard(duplicate_board)
-							self.set_child_state(duplicate_board, selected_board)
-							heapq.heappush(open_set, (duplicate_board.get_f_score(), duplicate_board))
+							closed_set.discard(duplicate_board)
+							heapq.heappush(open_set, (child.get_f_score(), child))
 							search_open_set.add(child)
 					else:
 						heapq.heappush(open_set, (child.get_f_score(), child))
 						search_open_set.add(child)
-				closed_set.append(selected_board)
-				search_closed_set.add(selected_board)
+				closed_set.add(selected_board)
 		if success:
 			self.get_path(selected_board)
+			print("running time: {} seconds".format(time.time() - start))
